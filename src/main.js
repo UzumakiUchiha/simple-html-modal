@@ -1,6 +1,6 @@
-window.simple_dialogs_counter = 0;
+window.shm_counter = 0;
 const popupV3 = (options) => {
-    const settings = Object.assign({type: "success", id: "shm_" + new Date().getTime(), timeout: -1, title: "", backdrop: true, content: "", classes: "", actions: [], modalOpenClass: "simple-modal-open"}, options);
+    const settings = Object.assign({ type: "success", id: "shm_" + new Date().getTime(), timeout: -1, title: "", backdrop: true, content: "", classes: "", actions: [], modalOpenClass: "simple-modal-open" }, options);
 
     // could have used template literal but it doesn't minify to a single line using uglify-js
     const dialog_html = '<div class="dialog-container">' +
@@ -26,8 +26,8 @@ const popupV3 = (options) => {
     dialog.querySelector('.dialog-header .close').addEventListener('click', closeDialog);
     dialog.addEventListener('close', () => {
         dialog.parentElement.removeChild(dialog);
-        if (settings.backdrop) window.simple_dialogs_counter--;
-        if(window.simple_dialogs_counter < 1) {
+        if (settings.backdrop) window.shm_counter--;
+        if (window.shm_counter < 1) {
             document.body.classList.remove(settings.modalOpenClass);
         }
     });
@@ -47,7 +47,7 @@ const popupV3 = (options) => {
     document.body.appendChild(dialog);
 
     if (settings.backdrop) {
-        window.simple_dialogs_counter++;
+        window.shm_counter++;
         dialog.classList.add('is-modal');
         document.body.classList.add(settings.modalOpenClass);
         dialog.showModal();
@@ -55,7 +55,7 @@ const popupV3 = (options) => {
         dialog.show();
     }
 
-    if(settings.timeout > 0) closeDialog();
+    if (settings.timeout > 0) closeDialog();
 
     return dialog;
 }

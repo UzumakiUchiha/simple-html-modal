@@ -1,4 +1,4 @@
-window.simple_dialogs_counter = 0;
+window.shm_counter = 0;
 
 const popupV3 = options => {
     const settings = Object.assign({
@@ -23,8 +23,8 @@ const popupV3 = options => {
     dialog.querySelector(".dialog-header .close").addEventListener("click", closeDialog);
     dialog.addEventListener("close", () => {
         dialog.parentElement.removeChild(dialog);
-        if (settings.backdrop) window.simple_dialogs_counter--;
-        if (window.simple_dialogs_counter < 1) {
+        if (settings.backdrop) window.shm_counter--;
+        if (window.shm_counter < 1) {
             document.body.classList.remove(settings.modalOpenClass);
         }
     });
@@ -40,7 +40,7 @@ const popupV3 = options => {
     });
     document.body.appendChild(dialog);
     if (settings.backdrop) {
-        window.simple_dialogs_counter++;
+        window.shm_counter++;
         dialog.classList.add("is-modal");
         document.body.classList.add(settings.modalOpenClass);
         dialog.showModal();
