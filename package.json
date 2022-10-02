@@ -5,7 +5,7 @@
   "main": "main.js",
   "scripts": {
     "minify": "yarn uglifyjs src/main.js -o dist/simple-html-modal.min.js -c drop_console=true -m && cd dist && copy simple-html-modal.min.js .. && cd.. && move simple-html-modal.min.js docs/simple-html-modal.min.js",
-    "copy": "yarn uglifyjs src/main.js -o dist/simple-html-modal.js -b & yarn uglifyjs src/main.js -o docs/simple-html-modal.js -b "
+    "copy": "yarn uglifyjs src/main.js -o dist/simple-html-modal.js -b"
   },
   "repository": {
     "type": "git",
