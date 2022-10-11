@@ -18,6 +18,7 @@ const popupV3 = (options) => {
     dialog.id = settings.id;
     dialog.classList.add(`dialog-${settings.type}`);
     dialog.innerHTML = dialog_html;
+    dialog.setAttribute("shm", "");
     dialog.querySelector('.dialog-header').classList.add(`dialog-${settings.type}`);
     dialog.querySelector('.dialog-body').innerHTML = settings.content;
 
