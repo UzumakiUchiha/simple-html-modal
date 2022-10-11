@@ -1,12 +1,13 @@
 window.shm_counter = 0;
 const popupV3 = (options) => {
-    const settings = Object.assign({ type: "success", id: "shm_" + new Date().getTime(), timeout: -1, title: "", backdrop: true, content: "", classes: "", actions: [], modalOpenClass: "simple-modal-open" }, options);
+    const settings = Object.assign({ type: "success", id: "shm_" + new Date().getTime(), timeout: -1, title: null, backdrop: true, content: "", classes: "", actions: [], modalOpenClass: "simple-modal-open" }, options);
+    if (settings.title === null) settings.title = settings.type;
 
     // could have used template literal but it doesn't minify to a single line using uglify-js
     const dialog_html = '<div class="dialog-container">' +
         '<div class="dialog-content">' +
             '<div class="dialog-header">' +
-                '<h5 class="dialog-title"></h5>' +
+                '<h5 class="dialog-title">' + settings.title + '</h5>' +
                 '<button class="close" aria-label="Close">&times;</button>' +
             '</div>' +
             '<div class="dialog-body"></div>' +

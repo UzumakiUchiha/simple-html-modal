@@ -5,14 +5,15 @@ const popupV3 = options => {
         type: "success",
         id: "shm_" + new Date().getTime(),
         timeout: -1,
-        title: "",
+        title: null,
         backdrop: true,
         content: "",
         classes: "",
         actions: [],
         modalOpenClass: "simple-modal-open"
     }, options);
-    const dialog_html = '<div class="dialog-container">' + '<div class="dialog-content">' + '<div class="dialog-header">' + '<h5 class="dialog-title"></h5>' + '<button class="close" aria-label="Close">&times;</button>' + "</div>" + '<div class="dialog-body"></div>' + '<div class="dialog-footer"></div>' + "</div>" + "</div>";
+    if (settings.title === null) settings.title = settings.type;
+    const dialog_html = '<div class="dialog-container">' + '<div class="dialog-content">' + '<div class="dialog-header">' + '<h5 class="dialog-title">' + settings.title + "</h5>" + '<button class="close" aria-label="Close">&times;</button>' + "</div>" + '<div class="dialog-body"></div>' + '<div class="dialog-footer"></div>' + "</div>" + "</div>";
     const dialog = window.dialog = document.createElement("dialog");
     dialog.id = settings.id;
     dialog.classList.add(`dialog-${settings.type}`);
