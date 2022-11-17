@@ -18,6 +18,7 @@ const popupV3 = (options) => {
     const dialog = window.dialog = document.createElement("dialog");
     dialog.id = settings.id;
     dialog.classList.add(`dialog-${settings.type}`);
+    if(settings.classes !="") dialog.classList.add(...`${settings.classes}`.split(" "));
     dialog.innerHTML = dialog_html;
     dialog.setAttribute("shm", "");
     dialog.querySelector('.dialog-header').classList.add(`dialog-${settings.type}`);
@@ -65,13 +66,9 @@ const popupV3 = (options) => {
         dialog.show();
     }
 
-    if(settings.classes !=""){
-        const classListNames = settings.classes.split(" ")
-        if(classListNames.indexOf("notification") > -1){
-            if(settings.timeout < 0) settings.timeout  =  2000
-            classListNames.push("noHeader", "noFooter")
-        }
-        dialog.classList.add(...classListNames);
+    if(dialog.classList.contains("notification")){
+        if(settings.timeout <= 0) settings.timeout  =  2000
+        dialog.classList.add("no-header", "no-footer")
     }
 
     if(settings.size !=""){
