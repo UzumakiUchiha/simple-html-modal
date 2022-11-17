@@ -1,6 +1,6 @@
 window.shm_counter = 0;
 const popupV3 = (options) => {
-    const settings = Object.assign({ type: "success", id: "shm_" + new Date().getTime(), timeout: -1, title: null, backdrop: true, content: "", classes: "", actions: [], modalOpenClass: "simple-modal-open", size:"", pos:"" }, options);
+    const settings = Object.assign({ type: "success", id: "shm_" + new Date().getTime(), timeout: -1, title: null, backdrop: true, content: "", classes: "", actions: [], modalOpenClass: "simple-modal-open", size: "", pos: ""}, options);
     if (settings.title === null) settings.title = settings.type;
 
     // could have used template literal but it doesn't minify to a single line using uglify-js
@@ -15,17 +15,18 @@ const popupV3 = (options) => {
         '</div>' +
     '</div>';
 
-    const dialog = window.dialog = document.createElement("dialog");
+    const dialog = document.createElement("dialog");
     dialog.id = settings.id;
     dialog.classList.add(`dialog-${settings.type}`);
-    if(settings.classes !="") dialog.classList.add(...`${settings.classes}`.split(" "));
+    if (settings.classes != "") dialog.classList.add(...`${settings.classes}`.split(" "));
     dialog.innerHTML = dialog_html;
     dialog.setAttribute("shm", "");
+    dialog.setAttribute("dialog-size", settings.size);
+    dialog.setAttribute("data-pos", settings.pos)
     dialog.querySelector('.dialog-header').classList.add(`dialog-${settings.type}`);
     dialog.querySelector('.dialog-body').innerHTML = settings.content;
 
     const closeDialog = () => dialog.close();
-
     dialog.querySelector('.dialog-header .close').addEventListener('click', closeDialog);
     dialog.addEventListener('close', () => {
         dialog.parentElement.removeChild(dialog);
@@ -37,13 +38,12 @@ const popupV3 = (options) => {
 
     dialog.addEventListener('click', function (event) {
         event.stopPropagation();
-
         let rect = dialog.getBoundingClientRect();
         let isInDialog = (rect.top <= event.clientY && event.clientY <= rect.top + rect.height && rect.left <= event.clientX && event.clientX <= rect.left + rect.width);
         if (!isInDialog) closeDialog();
     });
 
-    settings.actions.forEach((action,i) => {        
+    settings.actions.forEach((action, i) => {        
         let btn = document.createElement("button");
         btn.innerHTML = action.text;
         btn.class = `btn ${action?.classes}`;
@@ -66,22 +66,11 @@ const popupV3 = (options) => {
         dialog.show();
     }
 
-    if(dialog.classList.contains("notification")){
-        if(settings.timeout <= 0) settings.timeout  =  2000
-        dialog.classList.add("no-header", "no-footer")
+    if (dialog.classList.contains("notification") && settings.timeout <= 0) {
+        settings.timeout = 2000;
     }
 
-    if(settings.size !=""){
-        dialog.classList.add(`dialog-size-${settings.size}`);
-    }
-
-    if (settings.timeout > 0) setTimeout(function () {
-        closeDialog();
-    }, settings.timeout)
-
-    if(settings.pos !=""){
-        dialog.setAttribute("data-pos", settings.pos)
-    }
+    if (settings.timeout > 0) setTimeout(closeDialog, settings.timeout);
 
     return dialog;
 }
