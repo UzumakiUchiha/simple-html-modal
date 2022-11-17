@@ -85,18 +85,3 @@ const popupV3 = (options) => {
 
     return dialog;
 }
-
-const closePopupV3 = (target='',delay=0) => {
-    if(target.trim().length == 0) console.error("classname is required to close the popupV3") 
-    else {
-        const isDialog = document.querySelector(`dialog.${target}`)
-        if(isDialog != null){
-            const closeLatestDialogBox = document.querySelectorAll(`dialog.${target}`).length - 1
-            setTimeout(function () {
-                document.querySelectorAll(`dialog.${target}`)[closeLatestDialogBox].close()
-            }, delay)
-        }else{
-            console.error(`There is no dialog with ${target} classname or the dialog is already closed`) 
-        }
-    }
-}
