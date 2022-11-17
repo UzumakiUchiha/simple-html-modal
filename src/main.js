@@ -1,6 +1,6 @@
 window.shm_counter = 0;
 const popupV3 = (options) => {
-    const settings = Object.assign({ type: "success", id: "shm_" + new Date().getTime(), timeout: -1, title: null, backdrop: true, content: "", classes: "", actions: [], modalOpenClass: "simple-modal-open" }, options);
+    const settings = Object.assign({ type: "success", id: "shm_" + new Date().getTime(), timeout: -1, title: null, backdrop: true, content: "", classes: "", actions: [], modalOpenClass: "simple-modal-open", size:"", pos:"" }, options);
     if (settings.title === null) settings.title = settings.type;
 
     // could have used template literal but it doesn't minify to a single line using uglify-js
@@ -65,7 +65,41 @@ const popupV3 = (options) => {
         dialog.show();
     }
 
-    if (settings.timeout > 0) closeDialog();
+    if(settings.classes !=""){
+        const classListNames = settings.classes.split(" ")
+        if(classListNames.indexOf("notification") > -1){
+            if(settings.timeout < 0) settings.timeout  =  2000
+            classListNames.push("noHeader", "noFooter")
+        }
+        dialog.classList.add(...classListNames);
+    }
+
+    if(settings.size !=""){
+        dialog.classList.add(`dialog-size-${settings.size}`);
+    }
+
+    if (settings.timeout > 0) setTimeout(function () {
+        closeDialog();
+    }, settings.timeout)
+
+    if(settings.pos !=""){
+        dialog.setAttribute("data-pos", settings.pos)
+    }
 
     return dialog;
+}
+
+const closePopupV3 = (target='',delay=0) => {
+    if(target.trim().length == 0) console.error("classname is required to close the popupV3") 
+    else {
+        const isDialog = document.querySelector(`dialog.${target}`)
+        if(isDialog != null){
+            const closeLatestDialogBox = document.querySelectorAll(`dialog.${target}`).length - 1
+            setTimeout(function () {
+                document.querySelectorAll(`dialog.${target}`)[closeLatestDialogBox].close()
+            }, delay)
+        }else{
+            console.error(`There is no dialog with ${target} classname or the dialog is already closed`) 
+        }
+    }
 }
